@@ -1,0 +1,478 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C50AD46C19E3C6C900BA87BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD46B19E3C6C900BA87BE /* AppDelegate.swift */; };
+		C50AD46E19E3C6C900BA87BE /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD46D19E3C6C900BA87BE /* FirstViewController.swift */; };
+		C50AD47319E3C6C900BA87BE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C50AD47119E3C6C900BA87BE /* Main.storyboard */; };
+		C50AD47519E3C6C900BA87BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C50AD47419E3C6C900BA87BE /* Images.xcassets */; };
+		C50AD47819E3C6C900BA87BE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C50AD47619E3C6C900BA87BE /* LaunchScreen.xib */; };
+		C50AD48419E3C6C900BA87BE /* PopWorkoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD48319E3C6C900BA87BE /* PopWorkoutTests.swift */; };
+		C50AD49119E3D02500BA87BE /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50AD49019E3D02500BA87BE /* HealthKit.framework */; };
+		C50AD49319E3DD3C00BA87BE /* PLWEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49219E3DD3C00BA87BE /* PLWEntryViewController.swift */; };
+		C50AD49519E3DE1600BA87BE /* PLWListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49419E3DE1600BA87BE /* PLWListViewController.swift */; };
+		C50AD49819E3DFC500BA87BE /* FLWWorkoutTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */; };
+		C50AD49A19E40A2A00BA87BE /* PLWDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */; };
+		C5825FC519E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */; };
+		C5825FC719E4479100EDCFDF /* PLWWorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */; };
+		C5825FC919E4662500EDCFDF /* FLWQuantityTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C50AD47E19E3C6C900BA87BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C50AD45E19E3C6C900BA87BE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C50AD46519E3C6C900BA87BE;
+			remoteInfo = PopWorkout;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		C50AD46619E3C6C900BA87BE /* PopWorkout.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PopWorkout.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C50AD46A19E3C6C900BA87BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C50AD46B19E3C6C900BA87BE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C50AD46D19E3C6C900BA87BE /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		C50AD47219E3C6C900BA87BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C50AD47419E3C6C900BA87BE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C50AD47719E3C6C900BA87BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		C50AD47D19E3C6C900BA87BE /* PopWorkoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PopWorkoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C50AD48219E3C6C900BA87BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C50AD48319E3C6C900BA87BE /* PopWorkoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopWorkoutTests.swift; sourceTree = "<group>"; };
+		C50AD48F19E3CE5900BA87BE /* PopWorkout.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PopWorkout.entitlements; sourceTree = "<group>"; };
+		C50AD49019E3D02500BA87BE /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		C50AD49219E3DD3C00BA87BE /* PLWEntryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWEntryViewController.swift; sourceTree = "<group>"; };
+		C50AD49419E3DE1600BA87BE /* PLWListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWListViewController.swift; sourceTree = "<group>"; };
+		C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWWorkoutTableCellView.swift; sourceTree = "<group>"; };
+		C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWDatePickerViewController.swift; sourceTree = "<group>"; };
+		C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutEventsViewController.swift; sourceTree = "<group>"; };
+		C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutViewController.swift; sourceTree = "<group>"; };
+		C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWQuantityTableCellView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C50AD46319E3C6C900BA87BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C50AD49119E3D02500BA87BE /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C50AD47A19E3C6C900BA87BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C50AD45D19E3C6C900BA87BE = {
+			isa = PBXGroup;
+			children = (
+				C50AD49019E3D02500BA87BE /* HealthKit.framework */,
+				C50AD46819E3C6C900BA87BE /* PopWorkout */,
+				C50AD48019E3C6C900BA87BE /* PopWorkoutTests */,
+				C50AD46719E3C6C900BA87BE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C50AD46719E3C6C900BA87BE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C50AD46619E3C6C900BA87BE /* PopWorkout.app */,
+				C50AD47D19E3C6C900BA87BE /* PopWorkoutTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C50AD46819E3C6C900BA87BE /* PopWorkout */ = {
+			isa = PBXGroup;
+			children = (
+				C50AD48F19E3CE5900BA87BE /* PopWorkout.entitlements */,
+				C50AD49619E3DFAC00BA87BE /* Views */,
+				C50AD49219E3DD3C00BA87BE /* PLWEntryViewController.swift */,
+				C50AD49419E3DE1600BA87BE /* PLWListViewController.swift */,
+				C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */,
+				C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */,
+				C50AD46D19E3C6C900BA87BE /* FirstViewController.swift */,
+				C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */,
+				C50AD46B19E3C6C900BA87BE /* AppDelegate.swift */,
+				C50AD47119E3C6C900BA87BE /* Main.storyboard */,
+				C50AD47419E3C6C900BA87BE /* Images.xcassets */,
+				C50AD47619E3C6C900BA87BE /* LaunchScreen.xib */,
+				C50AD46919E3C6C900BA87BE /* Supporting Files */,
+			);
+			path = PopWorkout;
+			sourceTree = "<group>";
+		};
+		C50AD46919E3C6C900BA87BE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C50AD46A19E3C6C900BA87BE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C50AD48019E3C6C900BA87BE /* PopWorkoutTests */ = {
+			isa = PBXGroup;
+			children = (
+				C50AD48319E3C6C900BA87BE /* PopWorkoutTests.swift */,
+				C50AD48119E3C6C900BA87BE /* Supporting Files */,
+			);
+			path = PopWorkoutTests;
+			sourceTree = "<group>";
+		};
+		C50AD48119E3C6C900BA87BE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C50AD48219E3C6C900BA87BE /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C50AD49619E3DFAC00BA87BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */,
+				C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C50AD46519E3C6C900BA87BE /* PopWorkout */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C50AD48719E3C6C900BA87BE /* Build configuration list for PBXNativeTarget "PopWorkout" */;
+			buildPhases = (
+				C50AD46219E3C6C900BA87BE /* Sources */,
+				C50AD46319E3C6C900BA87BE /* Frameworks */,
+				C50AD46419E3C6C900BA87BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PopWorkout;
+			productName = PopWorkout;
+			productReference = C50AD46619E3C6C900BA87BE /* PopWorkout.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C50AD47C19E3C6C900BA87BE /* PopWorkoutTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C50AD48A19E3C6C900BA87BE /* Build configuration list for PBXNativeTarget "PopWorkoutTests" */;
+			buildPhases = (
+				C50AD47919E3C6C900BA87BE /* Sources */,
+				C50AD47A19E3C6C900BA87BE /* Frameworks */,
+				C50AD47B19E3C6C900BA87BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C50AD47F19E3C6C900BA87BE /* PBXTargetDependency */,
+			);
+			name = PopWorkoutTests;
+			productName = PopWorkoutTests;
+			productReference = C50AD47D19E3C6C900BA87BE /* PopWorkoutTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C50AD45E19E3C6C900BA87BE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Flask LLP";
+				TargetAttributes = {
+					C50AD46519E3C6C900BA87BE = {
+						CreatedOnToolsVersion = 6.0.1;
+						DevelopmentTeam = 37HX6DX7T7;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
+					};
+					C50AD47C19E3C6C900BA87BE = {
+						CreatedOnToolsVersion = 6.0.1;
+						TestTargetID = C50AD46519E3C6C900BA87BE;
+					};
+				};
+			};
+			buildConfigurationList = C50AD46119E3C6C900BA87BE /* Build configuration list for PBXProject "PopWorkout" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = C50AD45D19E3C6C900BA87BE;
+			productRefGroup = C50AD46719E3C6C900BA87BE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C50AD46519E3C6C900BA87BE /* PopWorkout */,
+				C50AD47C19E3C6C900BA87BE /* PopWorkoutTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C50AD46419E3C6C900BA87BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C50AD47319E3C6C900BA87BE /* Main.storyboard in Resources */,
+				C50AD47819E3C6C900BA87BE /* LaunchScreen.xib in Resources */,
+				C50AD47519E3C6C900BA87BE /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C50AD47B19E3C6C900BA87BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C50AD46219E3C6C900BA87BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C50AD49A19E40A2A00BA87BE /* PLWDatePickerViewController.swift in Sources */,
+				C5825FC919E4662500EDCFDF /* FLWQuantityTableCellView.swift in Sources */,
+				C50AD46C19E3C6C900BA87BE /* AppDelegate.swift in Sources */,
+				C50AD46E19E3C6C900BA87BE /* FirstViewController.swift in Sources */,
+				C50AD49819E3DFC500BA87BE /* FLWWorkoutTableCellView.swift in Sources */,
+				C50AD49319E3DD3C00BA87BE /* PLWEntryViewController.swift in Sources */,
+				C5825FC519E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift in Sources */,
+				C5825FC719E4479100EDCFDF /* PLWWorkoutViewController.swift in Sources */,
+				C50AD49519E3DE1600BA87BE /* PLWListViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C50AD47919E3C6C900BA87BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C50AD48419E3C6C900BA87BE /* PopWorkoutTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C50AD47F19E3C6C900BA87BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C50AD46519E3C6C900BA87BE /* PopWorkout */;
+			targetProxy = C50AD47E19E3C6C900BA87BE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C50AD47119E3C6C900BA87BE /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C50AD47219E3C6C900BA87BE /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		C50AD47619E3C6C900BA87BE /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C50AD47719E3C6C900BA87BE /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C50AD48519E3C6C900BA87BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C50AD48619E3C6C900BA87BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C50AD48819E3C6C900BA87BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PopWorkout/PopWorkout.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = PopWorkout/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Debug;
+		};
+		C50AD48919E3C6C900BA87BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PopWorkout/PopWorkout.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = PopWorkout/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+			};
+			name = Release;
+		};
+		C50AD48B19E3C6C900BA87BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PopWorkoutTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PopWorkout.app/PopWorkout";
+			};
+			name = Debug;
+		};
+		C50AD48C19E3C6C900BA87BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PopWorkoutTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PopWorkout.app/PopWorkout";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C50AD46119E3C6C900BA87BE /* Build configuration list for PBXProject "PopWorkout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C50AD48519E3C6C900BA87BE /* Debug */,
+				C50AD48619E3C6C900BA87BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C50AD48719E3C6C900BA87BE /* Build configuration list for PBXNativeTarget "PopWorkout" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C50AD48819E3C6C900BA87BE /* Debug */,
+				C50AD48919E3C6C900BA87BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C50AD48A19E3C6C900BA87BE /* Build configuration list for PBXNativeTarget "PopWorkoutTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C50AD48B19E3C6C900BA87BE /* Debug */,
+				C50AD48C19E3C6C900BA87BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C50AD45E19E3C6C900BA87BE /* Project object */;
+}
