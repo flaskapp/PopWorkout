@@ -33,7 +33,11 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
                     abort()
                 }
                 
-                self.datas = results as [HKWorkout]
+                if results != nil {
+                    self.datas = results as [HKWorkout]
+                } else {
+                    self.datas = []
+                }
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadData()
                 }
@@ -58,11 +62,19 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         numberFormatter.maximumFractionDigits = 0
         
         let energyFormatter = NSEnergyFormatter()
-        let totalEnergyBurned = workout.totalEnergyBurned.doubleValueForUnit(HKUnit.kilocalorieUnit())
-        cell.burnedLabel.text = numberFormatter.stringFromNumber(NSNumber(double: totalEnergyBurned)) + "kcal"
+        if workout.totalEnergyBurned != nil {
+            let totalEnergyBurned = workout.totalEnergyBurned.doubleValueForUnit(HKUnit.kilocalorieUnit())
+            cell.burnedLabel.text = numberFormatter.stringFromNumber(NSNumber(double: totalEnergyBurned))! + "kcal"
+        } else {
+            cell.burnedLabel.text = ""
+        }
 
-        let totalDistance = workout.totalDistance.doubleValueForUnit(HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo))
-        cell.distanceLabel.text = numberFormatter.stringFromNumber(NSNumber(double: totalDistance)) + "km"
+        if workout.totalDistance != nil {
+            let totalDistance = workout.totalDistance.doubleValueForUnit(HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo))
+            cell.distanceLabel.text = numberFormatter.stringFromNumber(NSNumber(double: totalDistance))! + "km"
+        } else {
+            cell.distanceLabel.text = ""
+        }
         
         let durationFormatter = NSDateComponentsFormatter()
         durationFormatter.unitsStyle = NSDateComponentsFormatterUnitsStyle.Abbreviated
@@ -71,8 +83,16 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
         dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
-        cell.startLabel.text = dateFormatter.stringFromDate(workout.startDate)
-        cell.endLabel.text = dateFormatter.stringFromDate(workout.endDate)
+        if workout.startDate != nil {
+            cell.startLabel.text = dateFormatter.stringFromDate(workout.startDate)
+        } else {
+            cell.startLabel.text = ""
+        }
+        if workout.endDate != nil {
+            cell.endLabel.text = dateFormatter.stringFromDate(workout.endDate)
+        } else {
+            cell.endLabel.text = ""
+        }
         
         cell.typeLabel.text = self._stringOfWorkoutType(workout.workoutActivityType)
         cell.sourceLabel.text = workout.source.name

@@ -129,15 +129,23 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
             dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
-            cell.dateLabel.text = dateFormatter.stringFromDate(quantity.startDate)
+            if quantity.startDate != nil {
+                cell.dateLabel.text = dateFormatter.stringFromDate(quantity.startDate)
+            } else {
+                cell.dateLabel.text = ""
+            }
             
             let numberFormatter = NSNumberFormatter()
             numberFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
             numberFormatter.minimumFractionDigits = 2
             numberFormatter.maximumFractionDigits = 0
             
-            let value = quantity.quantity.doubleValueForUnit(unit!)
-            cell.valueLabel.text = numberFormatter.stringFromNumber(NSNumber(double: value)) + unit.unitString
+            if quantity.quantity != nil {
+                let value = quantity.quantity.doubleValueForUnit(unit!)
+                cell.valueLabel.text = numberFormatter.stringFromNumber(NSNumber(double: value))! + unit.unitString
+            } else {
+                cell.valueLabel.text = ""
+            }
         }
         return cell
     }
