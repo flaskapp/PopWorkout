@@ -18,6 +18,7 @@
 		C50AD49519E3DE1600BA87BE /* PLWListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49419E3DE1600BA87BE /* PLWListViewController.swift */; };
 		C50AD49819E3DFC500BA87BE /* FLWWorkoutTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */; };
 		C50AD49A19E40A2A00BA87BE /* PLWDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */; };
+		C560067C19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C560067B19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift */; };
 		C5825FC519E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */; };
 		C5825FC719E4479100EDCFDF /* PLWWorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */; };
 		C5825FC919E4662500EDCFDF /* FLWQuantityTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */; };
@@ -50,6 +51,7 @@
 		C50AD49419E3DE1600BA87BE /* PLWListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWListViewController.swift; sourceTree = "<group>"; };
 		C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWWorkoutTableCellView.swift; sourceTree = "<group>"; };
 		C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWDatePickerViewController.swift; sourceTree = "<group>"; };
+		C560067B19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWWorkoutEventTableCellView.swift; sourceTree = "<group>"; };
 		C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutEventsViewController.swift; sourceTree = "<group>"; };
 		C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutViewController.swift; sourceTree = "<group>"; };
 		C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWQuantityTableCellView.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			children = (
 				C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */,
 				C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */,
+				C560067B19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				C5825FC919E4662500EDCFDF /* FLWQuantityTableCellView.swift in Sources */,
 				C50AD46C19E3C6C900BA87BE /* AppDelegate.swift in Sources */,
 				C50AD46E19E3C6C900BA87BE /* FirstViewController.swift in Sources */,
+				C560067C19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift in Sources */,
 				C50AD49819E3DFC500BA87BE /* FLWWorkoutTableCellView.swift in Sources */,
 				C50AD49319E3DD3C00BA87BE /* PLWEntryViewController.swift in Sources */,
 				C5825FC519E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift in Sources */,

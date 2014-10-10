@@ -20,7 +20,6 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
         self.reloadDatas()
     }
     
-    
     @IBAction func reloadDatas() {
         let predicate = HKQuery.predicateForObjectsFromWorkout(workout)
         let startDateSort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
@@ -66,7 +65,7 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
     //MARK: UITableViewDataSource implements
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -76,6 +75,8 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             return "Distance"
         } else if section == 2 {
             return "Meta Data"
+        } else if section == 3 {
+            return "Events"
         }
         return ""
     }
@@ -91,6 +92,12 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             } else {
                 return workout.metadata.count
             }
+        } else if section == 3 {
+            if workout.workoutEvents == nil {
+                return 0
+            } else {
+                return workout.workoutEvents.count
+            }
         } else {
             return 0
         }
@@ -105,6 +112,30 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             let value:AnyObject! = workout.metadata[key]
             cell.detailTextLabel?.text = "\(value)"
  
+            return cell
+        }
+        
+        if indexPath.section == 3 {
+            let cell:FLWWorkoutEventTableCellView = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as FLWWorkoutEventTableCellView
+            
+            let event = workout.workoutEvents[indexPath.row] as HKWorkoutEvent
+            if event.type == HKWorkoutEventType.Pause {
+                cell.eventNameLabel.text = "Pause"
+            } else if event.type == HKWorkoutEventType.Resume {
+                cell.eventNameLabel.text = "Resume"
+            } else {
+                cell.eventNameLabel.text = ""
+            }
+
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
+            dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
+            if event.date != nil {
+                cell.startDateLabel.text = dateFormatter.stringFromDate(event.date)
+            } else {
+                cell.startDateLabel.text = ""
+            }
+            
             return cell
         }
         
