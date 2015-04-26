@@ -41,7 +41,7 @@ class PLWEntryViewController: UITableViewController {
         let workoutType = HKWorkoutType.workoutType()
         
         let types:NSSet = NSSet(objects: distanceType, energyBurnedType, workoutType)
-        healthStore.requestAuthorizationToShareTypes(types, readTypes: types) { (success, error) -> Void in
+        healthStore.requestAuthorizationToShareTypes(types as Set<NSObject>, readTypes: types as Set<NSObject>) { (success, error) -> Void in
             if success {
                 println("success")
             } else {

@@ -34,7 +34,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
                 
                 if results != nil {
-                    self.datas = results as [HKWorkout]
+                    self.datas = results as! [HKWorkout]
                 } else {
                     self.datas = []
                 }
@@ -53,7 +53,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:FLWWorkoutTableCellView = tableView.dequeueReusableCellWithIdentifier("WorkoutCell", forIndexPath: indexPath) as FLWWorkoutTableCellView
+        let cell:FLWWorkoutTableCellView = tableView.dequeueReusableCellWithIdentifier("WorkoutCell", forIndexPath: indexPath) as! FLWWorkoutTableCellView
         let workout:HKWorkout = datas[indexPath.row]
         
         let numberFormatter = NSNumberFormatter()
@@ -103,7 +103,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let workout:HKWorkout = datas[indexPath.row]
-        let controller:PLWWorkoutViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WorkoutViewController") as PLWWorkoutViewController
+        let controller:PLWWorkoutViewController = self.storyboard!.instantiateViewControllerWithIdentifier("WorkoutViewController") as! PLWWorkoutViewController
         controller.workout = workout
         self.navigationController!.pushViewController(controller, animated: true)
 

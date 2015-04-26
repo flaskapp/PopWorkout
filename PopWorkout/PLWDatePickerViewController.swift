@@ -41,7 +41,7 @@ class PLWDatePickerViewController: UIViewController {
     
     class func show(parent:UIViewController, date:NSDate?, completion:((selectedDate:NSDate) -> ())) {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller:PLWDatePickerViewController = storyboard.instantiateViewControllerWithIdentifier("DatePickerViewController") as PLWDatePickerViewController
+        let controller:PLWDatePickerViewController = storyboard.instantiateViewControllerWithIdentifier("DatePickerViewController") as! PLWDatePickerViewController
         
         if date != nil {
             controller.selectedDate = date!

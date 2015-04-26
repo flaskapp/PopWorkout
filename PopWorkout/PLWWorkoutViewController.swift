@@ -36,7 +36,7 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
                         "the workout: \(error.localizedDescription)")
                     abort()
                 }
-                self.caloriesDatas = results as [HKQuantitySample]
+                self.caloriesDatas = results as! [HKQuantitySample]
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
                 }
@@ -54,7 +54,7 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
                         "the workout: \(error.localizedDescription)")
                     abort()
                 }
-                self.distanceDatas = results as [HKQuantitySample]
+                self.distanceDatas = results as! [HKQuantitySample]
                 dispatch_async(dispatch_get_main_queue()) {
                     self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
                 }
@@ -105,9 +105,9 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 2 {
-            let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("MetaCell", forIndexPath: indexPath) as UITableViewCell
+            let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("MetaCell", forIndexPath: indexPath) as! UITableViewCell
             
-            let key:String = workout.metadata.keys.array[indexPath.row] as String
+            let key:String = workout.metadata.keys.array[indexPath.row] as! String
             cell.textLabel?.text = key
             let value:AnyObject! = workout.metadata[key]
             cell.detailTextLabel?.text = "\(value)"
@@ -116,9 +116,9 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         if indexPath.section == 3 {
-            let cell:FLWWorkoutEventTableCellView = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as FLWWorkoutEventTableCellView
+            let cell:FLWWorkoutEventTableCellView = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! FLWWorkoutEventTableCellView
             
-            let event = workout.workoutEvents[indexPath.row] as HKWorkoutEvent
+            let event = workout.workoutEvents[indexPath.row] as! HKWorkoutEvent
             if event.type == HKWorkoutEventType.Pause {
                 cell.eventNameLabel.text = "Pause"
             } else if event.type == HKWorkoutEventType.Resume {
@@ -139,7 +139,7 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             return cell
         }
         
-        let cell:FLWQuantityTableCellView = tableView.dequeueReusableCellWithIdentifier("QuantityCell", forIndexPath: indexPath) as FLWQuantityTableCellView
+        let cell:FLWQuantityTableCellView = tableView.dequeueReusableCellWithIdentifier("QuantityCell", forIndexPath: indexPath) as! FLWQuantityTableCellView
         
         var quantity:HKQuantitySample!
         var unit:HKUnit!
