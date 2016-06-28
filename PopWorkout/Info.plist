@@ -47,5 +47,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>for read workout</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>for read workout</string>
 </dict>
 </plist>

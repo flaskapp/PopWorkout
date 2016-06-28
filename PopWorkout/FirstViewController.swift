@@ -26,132 +26,83 @@ class FirstViewController: UIViewController {
 
     func requestPrivacy() {
         
-        let distanceType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)
-        let energyBurnedType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)
+        let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
+        let energyBurnedType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
         let workoutType = HKWorkoutType.workoutType()
-        
-        let types:NSSet = NSSet(objects: distanceType, energyBurnedType, workoutType)
-        healthStore.requestAuthorizationToShareTypes(types as Set<NSObject>, readTypes: types as Set<NSObject>) { (success, error) -> Void in
+        let types:Set<HKSampleType> = Set(arrayLiteral: distanceType, energyBurnedType, workoutType)
+        healthStore.requestAuthorization(toShare: types, read: types) { (success, error) -> Void in
             if success {
-                println("success")
+                print("success")
             } else {
-                println(error)
+                print(error)
             }
         }
     }
 
     @IBAction func querySampleWorkout() {
-        let distanceType = HKObjectType.quantityTypeForIdentifier( HKQuantityTypeIdentifierDistanceWalkingRunning)
-        
-        //let workout = HKWorkout(activityType: HKWorkoutActivityType.Running, startDate: nil, endDate: nil)
-        
-        let workoutPredicate = HKQuery.predicateForWorkoutsWithWorkoutActivityType(HKWorkoutActivityType.Running)
-        
-        let startDateSort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-        
+        let startDateSort = SortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
         let query = HKSampleQuery(sampleType: HKWorkoutType.workoutType(), predicate: nil,
             limit: 0, sortDescriptors: [startDateSort]) {
                 (sampleQuery, results, error) -> Void in
                 
-
-                if error != nil {
-                    println("*** An error occurred while adding a sample to " +
-                        "the workout: \(error.localizedDescription)")
-                    
-                    abort()
+                if let e = error {
+                    print("*** An error occurred while adding a sample to " +
+                        "the workout: \(e.localizedDescription)")
                 }
                 
-                for samples in results {
-                    println(samples)
+                for samples in results! {
+                    print(samples)
                     let workout = samples as! HKWorkout
-                    println(workout.totalDistance)
-                    println(workout.totalEnergyBurned)
-                    
-//                    for workout in samples as [AnyObject] {
-//                        println(workout)
-//                    }
+                    print(workout.totalDistance)
+                    print(workout.totalEnergyBurned)
                 }
         }
-        
-        healthStore.executeQuery(query)
+        healthStore.execute(query)
     }
     
     
     @IBAction func addSampleWorkout() {
-        let start = NSDate()
-        let end = NSDate()
-        let intervals = [NSDate(), NSDate()]
+        let start = Date()
+        let end = Date()
+        let intervals = [Date(), Date()]
         
-        let energyBurned = HKQuantity(unit: HKUnit.kilocalorieUnit(), doubleValue: 425.0)
-        
-        let distance = HKQuantity(unit: HKUnit.mileUnit(),
-            doubleValue: 3.2)
+        let energyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 425.0)
+        let distance = HKQuantity(unit: HKUnit.mile(), doubleValue: 3.2)
         
         // Provide summary information when creating the workout.
-        let run = HKWorkout(activityType: HKWorkoutActivityType.Running,
-            startDate: start, endDate: end, duration: 0,
+        let run = HKWorkout(activityType: HKWorkoutActivityType.running,
+            start: start, end: end, duration: 0,
             totalEnergyBurned: energyBurned, totalDistance: distance, metadata: nil)
-        
-        // Save the workout before adding detailed samples.
-        healthStore.saveObject(run) { (success, error) -> Void in
+
+        healthStore.save(run) { (success, error) -> Void in
             if !success {
                 // Perform proper error handling here...
-                println("*** An error occurred while saving the " +
-                    "workout: \(error.localizedDescription)")
+                print("*** An error occurred while saving the " +
+                    "workout: \(error?.localizedDescription)")
                 
                 abort()
             }
             
             // Add optional, detailed information for each time interval
             var samples: [HKQuantitySample] = []
-            
-            let distanceType =
-            HKObjectType.quantityTypeForIdentifier(
-                HKQuantityTypeIdentifierDistanceWalkingRunning)
-            
-            let distancePerInterval = HKQuantity(unit: HKUnit.footUnit(),
-                doubleValue: 165.0)
-            
-            let distancePerIntervalSample =
-            HKQuantitySample(type: distanceType, quantity: distancePerInterval,
-                startDate: intervals[0], endDate: intervals[1])
-            
+
+            let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
+            let distancePerInterval = HKQuantity(unit: HKUnit.foot(), doubleValue: 165.0)
+            let distancePerIntervalSample = HKQuantitySample(type: distanceType, quantity: distancePerInterval, start: intervals[0], end: intervals[1])
             samples.append(distancePerIntervalSample)
             
-            let energyBurnedType =
-            HKObjectType.quantityTypeForIdentifier(
-                HKQuantityTypeIdentifierActiveEnergyBurned)
-            
-            let energyBurnedPerInterval = HKQuantity(unit: HKUnit.kilocalorieUnit(),
-                doubleValue: 15.5)
-            
-            let energyBurnedPerIntervalSample =
-            HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval,
-                startDate: intervals[0], endDate: intervals[1])
-            
+            let energyBurnedType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
+            let energyBurnedPerInterval = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: 15.5)
+            let energyBurnedPerIntervalSample = HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval, start: intervals[0], end: intervals[1])
             samples.append(energyBurnedPerIntervalSample)
             
-//            let heartRateType =
-//            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierHeartRate)
-//            
-//            let heartRateForInterval = HKQuantity(unit: HKUnit(fromString: "count/min"),
-//                doubleValue: 95.0)
-//            
-//            let heartRateForIntervalSample =
-//            HKQuantitySample(type: heartRateType, quantity: heartRateForInterval,
-//                startDate: intervals[0], endDate: intervals[1])
-//            
-//            samples.append(heartRateForIntervalSample)
-//            
-            // Continue adding detailed samples...
-            
             // Add all the samples to the workout.
-            self.healthStore.addSamples(samples,
-                toWorkout: run) { (success, error) -> Void in
+            self.healthStore.add(samples,
+                to: run) { (success, error) -> Void in
                     if !success {
                         // Perform proper error handling here...
-                        println("*** An error occurred while adding a " +
-                            "sample to the workout: \(error.localizedDescription)")
+                        print("*** An error occurred while adding a " +
+                            "sample to the workout: \(error?.localizedDescription)")
                         abort()
                     }
             }

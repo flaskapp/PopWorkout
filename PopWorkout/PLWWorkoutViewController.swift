@@ -21,54 +21,53 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     @IBAction func reloadDatas() {
-        let predicate = HKQuery.predicateForObjectsFromWorkout(workout)
-        let startDateSort = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
+        let predicate = HKQuery.predicateForObjects(from: workout)
+        let startDateSort = SortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         let healthStore:HKHealthStore = HKHealthStore()
         
         //Active Calories
-        let calType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)
-        let calquery = HKSampleQuery(sampleType: calType, predicate: predicate,
+        let calType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)
+        let calquery = HKSampleQuery(sampleType: calType!, predicate: predicate,
             limit: 0, sortDescriptors: [startDateSort]) {
                 (sampleQuery, results, error) -> Void in
                 
-                if error != nil {
-                    println("*** An error occurred while adding a sample to " +
-                        "the workout: \(error.localizedDescription)")
+                if let e = error {
+                    print("*** An error occurred while adding a sample to " +
+                        "the workout: \(e.localizedDescription)")
                     abort()
                 }
                 self.caloriesDatas = results as! [HKQuantitySample]
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-                }
+                DispatchQueue.main.async(execute: {
+                    self.tableView.reloadSections(NSIndexSet(index: 0) as IndexSet, with: .automatic)
+                })
         }
-        healthStore.executeQuery(calquery)
+        healthStore.execute(calquery)
         
         //Distance
-        let distanceType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)
-        let query = HKSampleQuery(sampleType: distanceType, predicate: predicate,
-            limit: 0, sortDescriptors: [startDateSort]) {
+        let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)
+        let query = HKSampleQuery(sampleType: distanceType!, predicate: predicate, limit: 0, sortDescriptors: [startDateSort]) {
                 (sampleQuery, results, error) -> Void in
                 
-                if error != nil {
-                    println("*** An error occurred while adding a sample to " +
-                        "the workout: \(error.localizedDescription)")
+                if let e = error {
+                    print("*** An error occurred while adding a sample to " +
+                        "the workout: \(e.localizedDescription)")
                     abort()
                 }
                 self.distanceDatas = results as! [HKQuantitySample]
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
-                }
+                DispatchQueue.main.async(execute: { 
+                    self.tableView.reloadSections(NSIndexSet(index: 1) as IndexSet, with: .automatic)
+                })
         }
-        healthStore.executeQuery(query)
+        healthStore.execute(query)
     }
     
     //MARK: UITableViewDataSource implements
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "Active Calories"
         } else if section == 1 {
@@ -81,151 +80,137 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
         return ""
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return caloriesDatas.count
         } else if section == 1 {
             return distanceDatas.count
         } else if section == 2 {
-            if workout.metadata == nil {
-                return 0
+            if let metadata = workout.metadata {
+                return metadata.count
             } else {
-                return workout.metadata.count
+                return 0
             }
         } else if section == 3 {
-            if workout.workoutEvents == nil {
-                return 0
+            if let data = workout.workoutEvents {
+                return data.count
             } else {
-                return workout.workoutEvents.count
+                return 0
             }
         } else {
             return 0
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 2 {
-            let cell:UITableViewCell = tableView.dequeueReusableCellWithIdentifier("MetaCell", forIndexPath: indexPath) as! UITableViewCell
-            
-            let key:String = workout.metadata.keys.array[indexPath.row] as! String
-            cell.textLabel?.text = key
-            let value:AnyObject! = workout.metadata[key]
-            cell.detailTextLabel?.text = "\(value)"
- 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if (indexPath as NSIndexPath).section == 2 {
+            let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "MetaCell", for: indexPath)
+            if let metadatas = workout.metadata {
+                let keys = Array(metadatas.keys)
+                let key:String = keys[indexPath.row]
+                cell.textLabel?.text = key
+                if let value = metadatas[key] {
+                    cell.detailTextLabel?.text = "\(value)"
+                } else {
+                    cell.detailTextLabel?.text = ""
+                }
+            }
             return cell
         }
         
-        if indexPath.section == 3 {
-            let cell:FLWWorkoutEventTableCellView = tableView.dequeueReusableCellWithIdentifier("EventCell", forIndexPath: indexPath) as! FLWWorkoutEventTableCellView
-            
-            let event = workout.workoutEvents[indexPath.row] as! HKWorkoutEvent
-            if event.type == HKWorkoutEventType.Pause {
+        if (indexPath as NSIndexPath).section == 3 {
+            let cell:FLWWorkoutEventTableCellView = tableView.dequeueReusableCell(withIdentifier: "EventCell", for: indexPath) as! FLWWorkoutEventTableCellView
+            let event = workout.workoutEvents![indexPath.row]
+            if event.type == .pause {
                 cell.eventNameLabel.text = "Pause"
-            } else if event.type == HKWorkoutEventType.Resume {
+            } else if event.type == .resume {
                 cell.eventNameLabel.text = "Resume"
             } else {
                 cell.eventNameLabel.text = ""
             }
 
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-            dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
-            if event.date != nil {
-                cell.startDateLabel.text = dateFormatter.stringFromDate(event.date)
-            } else {
-                cell.startDateLabel.text = ""
-            }
-            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .mediumStyle
+            dateFormatter.timeStyle = .mediumStyle
+            cell.startDateLabel.text = dateFormatter.string(from: event.date)
             return cell
         }
         
-        let cell:FLWQuantityTableCellView = tableView.dequeueReusableCellWithIdentifier("QuantityCell", forIndexPath: indexPath) as! FLWQuantityTableCellView
+        let cell:FLWQuantityTableCellView = tableView.dequeueReusableCell(withIdentifier: "QuantityCell", for: indexPath) as! FLWQuantityTableCellView
         
         var quantity:HKQuantitySample!
         var unit:HKUnit!
         
-        if indexPath.section == 0 {
-            quantity = caloriesDatas[indexPath.row]
-            unit = HKUnit.kilocalorieUnit()
+        if (indexPath as NSIndexPath).section == 0 {
+            quantity = caloriesDatas[(indexPath as NSIndexPath).row]
+            unit = HKUnit.kilocalorie()
             
-        } else if indexPath.section == 1 {
-            quantity = distanceDatas[indexPath.row]
-            unit = HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo)
-            
+        } else if (indexPath as NSIndexPath).section == 1 {
+            quantity = distanceDatas[(indexPath as NSIndexPath).row]
+            unit = HKUnit.meterUnit(with: HKMetricPrefix.kilo)
         }
         
         if quantity != nil {
             cell.sourceLabel.text = quantity.source.name
             
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = NSDateFormatterStyle.MediumStyle
-            dateFormatter.timeStyle = NSDateFormatterStyle.MediumStyle
-            if quantity.startDate != nil {
-                cell.dateLabel.text = dateFormatter.stringFromDate(quantity.startDate)
-            } else {
-                cell.dateLabel.text = ""
-            }
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .mediumStyle
+            dateFormatter.timeStyle = .mediumStyle
+            cell.dateLabel.text = dateFormatter.string(from: quantity.startDate)
             
-            let numberFormatter = NSNumberFormatter()
-            numberFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-            numberFormatter.minimumFractionDigits = 2
-            numberFormatter.maximumFractionDigits = 0
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.minimumFractionDigits = 0
+            numberFormatter.maximumFractionDigits = 2
             
-            if quantity.quantity != nil {
-                let value = quantity.quantity.doubleValueForUnit(unit!)
-                cell.valueLabel.text = numberFormatter.stringFromNumber(NSNumber(double: value))! + unit.unitString
-            } else {
-                cell.valueLabel.text = ""
-            }
+            let value = quantity.quantity.doubleValue(for: unit!)
+            cell.valueLabel.text = numberFormatter.string(from: NSNumber(value: value))! + unit.unitString
         }
         return cell
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if indexPath.section > 1 {
-            return;
+            return
         }
         var quantity:HKQuantitySample!
-        
         if indexPath.section == 0 {
-            quantity = caloriesDatas[indexPath.row]
+            quantity = caloriesDatas[(indexPath as NSIndexPath).row]
         } else if indexPath.section == 1 {
-            quantity = distanceDatas[indexPath.row]
+            quantity = distanceDatas[(indexPath as NSIndexPath).row]
         } else {
             return
         }
         
         let healthStore:HKHealthStore = HKHealthStore()
-        healthStore.deleteObject(quantity, withCompletion: { (success, error) -> Void in
+        healthStore.delete(quantity, withCompletion: { (success, error) -> Void in
             if success {
                 if indexPath.section == 0 {
-                    self.caloriesDatas.removeAtIndex(indexPath.row)
-                } else if (indexPath.section == 1) {
-                    self.distanceDatas.removeAtIndex(indexPath.row)
+                    self.caloriesDatas.remove(at: (indexPath as NSIndexPath).row)
+                } else if indexPath.section == 1 {
+                    self.distanceDatas.remove(at: (indexPath as NSIndexPath).row)
                 }
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
             } else {
-                var alertController = UIAlertController(
+                let alertController = UIAlertController(
                     title: "削除エラー",
-                    message: "削除失敗しました", preferredStyle: .Alert)
-                let otherAction = UIAlertAction(title: "閉じる", style: .Default) {action in }
+                    message: "削除失敗しました", preferredStyle: .alert)
+                let otherAction = UIAlertAction(title: "閉じる", style: .default) {action in }
                 alertController.addAction(otherAction)
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         })
     }
     
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        if indexPath.section < 2 {
-            return UITableViewCellEditingStyle.Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        if (indexPath as NSIndexPath).section < 2 {
+            return .delete
         } else {
-            return UITableViewCellEditingStyle.None
+            return .none
         }
     }
-
 }

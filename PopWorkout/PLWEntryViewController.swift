@@ -10,133 +10,129 @@ import UIKit
 import HealthKit
 
 class PLWEntryViewController: UITableViewController {
-    @IBOutlet var typeLabel:UILabel!
-    @IBOutlet var startLabel:UILabel!
-    @IBOutlet var endLabel:UILabel!
-    @IBOutlet var distanceText:UITextField!
-    @IBOutlet var burnedText:UITextField!
+    @IBOutlet weak var typeLabel:UILabel!
+    @IBOutlet weak var startLabel:UILabel!
+    @IBOutlet weak var endLabel:UILabel!
+    @IBOutlet weak var distanceText:UITextField!
+    @IBOutlet weak var burnedText:UITextField!
 
     let healthStore:HKHealthStore = HKHealthStore()
-    var selectedType:HKWorkoutActivityType = HKWorkoutActivityType.Walking
-    var start:NSDate?
-    var end:NSDate?
+    var selectedType:HKWorkoutActivityType = .walking
+    var start:Date?
+    var end:Date?
     var distance:Double = 0
     var burnedCalories:Double = 0
     
     override func loadView() {
         super.loadView()
-        
-        let cal:NSCalendar = NSCalendar.currentCalendar()
-        let comps:NSDateComponents = cal.components(NSCalendarUnit.YearCalendarUnit | NSCalendarUnit.MonthCalendarUnit | NSCalendarUnit.DayCalendarUnit | NSCalendarUnit.HourCalendarUnit, fromDate: NSDate())
-        end = cal.dateFromComponents(comps)
-        comps.hour--
-        start = cal.dateFromComponents(comps)
-        self._updateUI()
+        let cal:Calendar = Calendar.current()
+        var comps:DateComponents = cal.components([.year, .month, .day, .hour], from: Date())
+        end = cal.date(from: comps)
+        if let hour = comps.hour {
+            comps.hour = hour - 1
+        }
+        start = cal.date(from: comps)
+        self.updateUI()
         self.requestPrivacy()
     }
     
-    func requestPrivacy() {
-        let distanceType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)
-        let energyBurnedType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)
+    private func requestPrivacy() {
+        let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
+        let energyBurnedType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
         let workoutType = HKWorkoutType.workoutType()
-        
-        let types:NSSet = NSSet(objects: distanceType, energyBurnedType, workoutType)
-        healthStore.requestAuthorizationToShareTypes(types as Set<NSObject>, readTypes: types as Set<NSObject>) { (success, error) -> Void in
+        let types:Set<HKSampleType> = Set(arrayLiteral: distanceType, energyBurnedType, workoutType)
+        healthStore.requestAuthorization(toShare: types, read: types) { (success, error) -> Void in
             if success {
-                println("success")
+                print("success")
             } else {
-                println(error)
+                print(error)
             }
         }
     }
     
-    
-    func _updateUI() {
-        typeLabel.text = self._stringOfWorkoutType(selectedType)
-        let formatter = NSDateFormatter()
-        formatter.dateStyle = NSDateFormatterStyle.MediumStyle
-        formatter.timeStyle = NSDateFormatterStyle.MediumStyle
+    private func updateUI() {
+        typeLabel.text = stringOfWorkoutType(selectedType)
+        let formatter = DateFormatter()
+        formatter.dateStyle = DateFormatter.Style.mediumStyle
+        formatter.timeStyle = DateFormatter.Style.mediumStyle
         
         if start != nil {
-            startLabel.text = formatter.stringFromDate(start!)
+            startLabel.text = formatter.string(from: start!)
         } else {
             startLabel.text = ""
         }
         
         if end != nil {
-            endLabel.text = formatter.stringFromDate(end!)
+            endLabel.text = formatter.string(from: end!)
         } else {
             endLabel.text = ""
         }
         
-        let numberFormatter = NSNumberFormatter()
-        numberFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        numberFormatter.minimumFractionDigits = 2
-        numberFormatter.maximumFractionDigits = 0
-        distanceText.text = numberFormatter.stringFromNumber(NSNumber(double: distance))
-        burnedText.text = numberFormatter.stringFromNumber(NSNumber(double: burnedCalories))
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 0
+        numberFormatter.maximumFractionDigits = 2
+        distanceText.text = numberFormatter.string(from: NSNumber(value: distance))
+        burnedText.text = numberFormatter.string(from: NSNumber(value: burnedCalories))
         
-       self._resignTexts()
+       self.resignTexts()
     }
     
-    func _resignTexts() {
+    private func resignTexts() {
         distanceText.resignFirstResponder()
         burnedText.resignFirstResponder()
     }
     
-    func _chooseType() {
-        self._resignTexts()
-        var sheet = UIAlertController(title:nil, message: nil, preferredStyle: .ActionSheet)
-        let types:[HKWorkoutActivityType] = [HKWorkoutActivityType.Walking, HKWorkoutActivityType.Running, HKWorkoutActivityType.Cycling, HKWorkoutActivityType.MixedMetabolicCardioTraining, HKWorkoutActivityType.Swimming];
+    private func chooseType() {
+        self.resignTexts()
+        let sheet = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
+        let types:[HKWorkoutActivityType] = [.walking, .running, .cycling, .mixedMetabolicCardioTraining, .swimming];
     
         for type in types {
-            let action = UIAlertAction(title: self._stringOfWorkoutType(type), style: .Default, handler: { (action) -> Void in
+            let action = UIAlertAction(title: stringOfWorkoutType(type), style: .default, handler: { (action) -> Void in
                 self.selectedType = type
-                self._updateUI()
+                self.updateUI()
             })
             sheet.addAction(action)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {
             action in //nohitng todo
         }
         sheet.addAction(cancelAction)
-        presentViewController(sheet, animated: true, completion: nil)
+        present(sheet, animated: true, completion: nil)
     }
     
-    func _chooseStart() {
-        self._resignTexts()
+    func chooseStart() {
+        self.resignTexts()
         PLWDatePickerViewController.show(self, date: start) { (selectedDate) -> () in
             self.start = selectedDate
-            self._updateUI()
+            self.updateUI()
         }
     }
     
-    func _chooseEnd() {
-        self._resignTexts()
+    private func chooseEnd() {
+        self.resignTexts()
         PLWDatePickerViewController.show(self, date: end) { (selectedDate) -> () in
             self.end = selectedDate
-            self._updateUI()
+            self.updateUI()
         }
     }
     
-    func _save() {
-        self._resignTexts()
-        let formatter = NSNumberFormatter()
-        let burned = formatter.numberFromString(burnedText.text)!.doubleValue
-        let energyBurned = HKQuantity(unit: HKUnit.kilocalorieUnit(), doubleValue: burned)
-        let dis = formatter.numberFromString(distanceText.text)!.doubleValue
-        let distance = HKQuantity(unit: HKUnit.mileUnit(), doubleValue: dis)
+    private func save() {
+        self.resignTexts()
+        let formatter = NumberFormatter()
+        let burned = formatter.number(from: burnedText.text!)!.doubleValue
+        let energyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: burned)
+        let dis = formatter.number(from: distanceText.text!)!.doubleValue
+        let distance = HKQuantity(unit: HKUnit.mile(), doubleValue: dis)
         
-        let workout = HKWorkout(activityType: self.selectedType,
-            startDate: start, endDate: end, duration: 0,
-            totalEnergyBurned: energyBurned, totalDistance: distance, metadata: nil)
+        let workout = HKWorkout(activityType: self.selectedType, start: start!, end: end!, duration: 0, totalEnergyBurned: energyBurned, totalDistance: distance, metadata: nil)
         
         // Save the workout before adding detailed samples.
-        healthStore.saveObject(workout) { (success, error) -> Void in
+        healthStore.save(workout) { (success, error) -> Void in
             if !success {
-                self._showErrorDialog("*** An error occurred while saving the " +
-                    "workout: \(error.localizedDescription)")
+                self.showErrorDialog("*** An error occurred while saving the " + "workout: \(error?.localizedDescription)")
                 //abort()
             }
 
@@ -144,90 +140,71 @@ class PLWEntryViewController: UITableViewController {
             var samples: [HKQuantitySample] = []
             
             if dis > 0 {
-                let distanceType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning)
-                
-                let distancePerInterval = HKQuantity(unit: HKUnit.meterUnitWithMetricPrefix(HKMetricPrefix.Kilo),
-                    doubleValue: dis)
-                
-                let distancePerIntervalSample = HKQuantitySample(type: distanceType, quantity: distancePerInterval,
-                    startDate: self.start, endDate: self.end)
-                
+                let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
+                let distancePerInterval = HKQuantity(unit: HKUnit.meterUnit(with: HKMetricPrefix.kilo), doubleValue: dis)
+                let distancePerIntervalSample = HKQuantitySample(type: distanceType, quantity: distancePerInterval, start: self.start!, end: self.end!)
                 samples.append(distancePerIntervalSample)
             }
-            
 
             if burned > 0 {
-                let energyBurnedType =
-                HKObjectType.quantityTypeForIdentifier(
-                    HKQuantityTypeIdentifierActiveEnergyBurned)
+                let energyBurnedType = HKObjectType.quantityType( forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
+                let energyBurnedPerInterval = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: burned)
                 
-                let energyBurnedPerInterval = HKQuantity(unit: HKUnit.kilocalorieUnit(),
-                    doubleValue: burned)
-                
-                let energyBurnedPerIntervalSample =
-                HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval,
-                    startDate: self.start, endDate: self.end)
-                
+                let energyBurnedPerIntervalSample = HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval, start: self.start!, end: self.end!)
                 samples.append(energyBurnedPerIntervalSample)
             }
 
-
             // Add all the samples to the workout.
             if samples.count > 0 {
-                self.healthStore.addSamples(samples,
-                    toWorkout: workout) { (success, error) -> Void in
-                        if !success {
-                            // Perform proper error handling here...
-                            self._showErrorDialog("*** An error occurred while adding a " +
-                                "sample to the workout: \(error.localizedDescription)")
-                            //abort()
-                        } else {
-                            self._showErrorDialog("Saved!")
-                        }
+                self.healthStore.add(samples, to: workout) { (success, error) -> Void in
+                    if !success {
+                        self.showErrorDialog("*** An error occurred while adding a " + "sample to the workout: \(error?.localizedDescription)")
+                        //abort()
+                    } else {
+                        self.showErrorDialog("Saved!")
+                    }
                 }
             }
         }
 
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 && indexPath.row == 0 {
-            self._chooseType()
-        } else if (indexPath.section == 1 && indexPath.row == 0) {
-            self._chooseStart()
-        } else if (indexPath.section == 1 && indexPath.row == 1) {
-            self._chooseEnd()
-        } else if (indexPath.section == 3 && indexPath.row == 0) {
-            self._save();
+            chooseType()
+        } else if indexPath.section == 1 && indexPath.row == 0 {
+            chooseStart()
+        } else if indexPath.section == 1 && indexPath.row == 1 {
+            chooseEnd()
+        } else if indexPath.section == 3 && indexPath.row == 0 {
+            save()
         }
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func _stringOfWorkoutType(type:HKWorkoutActivityType) -> String {
+    private func stringOfWorkoutType(_ type:HKWorkoutActivityType) -> String {
         switch type {
-        case HKWorkoutActivityType.Running:
+        case HKWorkoutActivityType.running:
             return "Running"
-        case HKWorkoutActivityType.Walking:
+        case HKWorkoutActivityType.walking:
             return "Walking"
-        case HKWorkoutActivityType.MixedMetabolicCardioTraining:
+        case HKWorkoutActivityType.mixedMetabolicCardioTraining:
             return "MixedMetabolicCardioTraining"
-        case HKWorkoutActivityType.Swimming:
+        case HKWorkoutActivityType.swimming:
             return "Swimming"
-        case HKWorkoutActivityType.Cycling:
+        case HKWorkoutActivityType.cycling:
             return "Cycling"
         default:
             return "\(type.hashValue)"
         }
     }
     
-    func _showErrorDialog(message:String) {
-        var alertController = UIAlertController(
-            title: "",
-            message: message, preferredStyle: .Alert)
-        let otherAction = UIAlertAction(title: "Close", style: .Default) {action in }
+    private func showErrorDialog(_ message:String) {
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let otherAction = UIAlertAction(title: "Close", style: .default) {action in }
         alertController.addAction(otherAction)
-        dispatch_async(dispatch_get_main_queue()) {
-            self.presentViewController(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion: nil)
         }
     }
 }

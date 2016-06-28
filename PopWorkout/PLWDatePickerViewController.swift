@@ -14,9 +14,9 @@ class PLWDatePickerViewController: UIViewController {
     @IBOutlet var backgroundImageView:UIImageView!
     @IBOutlet var bottomConstraint:NSLayoutConstraint!
 
-    var selectedDate:NSDate = NSDate()
+    var selectedDate:Date = Date()
     var parentImage:UIImage?
-    var completionBlock:((selectedDate:NSDate) -> ())?
+    var completionBlock:((selectedDate:Date) -> ())?
     
     override func loadView() {
         super.loadView()
@@ -39,9 +39,9 @@ class PLWDatePickerViewController: UIViewController {
 //            completion: nil)
     }
     
-    class func show(parent:UIViewController, date:NSDate?, completion:((selectedDate:NSDate) -> ())) {
+    class func show(_ parent:UIViewController, date:Date?, completion:((selectedDate:Date) -> ())) {
         let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let controller:PLWDatePickerViewController = storyboard.instantiateViewControllerWithIdentifier("DatePickerViewController") as! PLWDatePickerViewController
+        let controller:PLWDatePickerViewController = storyboard.instantiateViewController(withIdentifier: "DatePickerViewController") as! PLWDatePickerViewController
         
         if date != nil {
             controller.selectedDate = date!
@@ -60,7 +60,7 @@ class PLWDatePickerViewController: UIViewController {
 //        effectView.setTranslatesAutoresizingMaskIntoConstraints(false)
 //        parent.view.addSubview(effectView)
 
-        parent.presentViewController(controller, animated: true) { () -> Void in
+        parent.present(controller, animated: true) { () -> Void in
             //controller.backgroundImageView.image = fromFullImage
         }
         //parent.presentViewController(controller, animated: true, completion:nil)
@@ -70,7 +70,7 @@ class PLWDatePickerViewController: UIViewController {
         if completionBlock != nil {
             completionBlock!(selectedDate:self.datePicker.date)
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
 //    //MARK: UIViewControllerTransitioningDelegate implements
