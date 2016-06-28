@@ -55,8 +55,8 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
-        numberFormatter.minimumFractionDigits = 2
-        numberFormatter.maximumFractionDigits = 0
+        numberFormatter.minimumFractionDigits = 0
+        numberFormatter.maximumFractionDigits = 2
 
         if let burned = workout.totalEnergyBurned {
             let totalEnergyBurned = burned.doubleValue(for: HKUnit.kilocalorie())
@@ -82,7 +82,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.startLabel.text = dateFormatter.string(from: workout.startDate)
         cell.endLabel.text = dateFormatter.string(from: workout.endDate)
         
-        cell.typeLabel.text = self._stringOfWorkoutType(workout.workoutActivityType)
+        cell.typeLabel.text = stringOfWorkoutType(workout.workoutActivityType)
         cell.sourceLabel.text = workout.source.name
         return cell
     }
@@ -124,7 +124,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         return UITableViewCellEditingStyle.delete
     }
     
-    func _stringOfWorkoutType(_ type:HKWorkoutActivityType) -> String {
+    private func stringOfWorkoutType(_ type:HKWorkoutActivityType) -> String {
         switch type {
         case HKWorkoutActivityType.running:
             return "Running"

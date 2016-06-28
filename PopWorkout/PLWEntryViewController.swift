@@ -105,6 +105,7 @@ class PLWEntryViewController: UITableViewController {
     
     func chooseStart() {
         self.resignTexts()
+        //self.performSegue(withIdentifier: "ChooseDateTime", sender: nil)
         PLWDatePickerViewController.show(self, date: start) { (selectedDate) -> () in
             self.start = selectedDate
             self.updateUI()
@@ -126,14 +127,16 @@ class PLWEntryViewController: UITableViewController {
         let energyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: burned)
         let dis = formatter.number(from: distanceText.text!)!.doubleValue
         let distance = HKQuantity(unit: HKUnit.mile(), doubleValue: dis)
+        let metadata:[String: AnyObject] = Dictionary()
+//        let metadata = ["HKWeatherHumidity":HKQuantity(unit: HKUnit.percent(), doubleValue: 90),
+//                        "HKWeatherTemperature":HKQuantity(unit: HKUnit.degreeCelsius(), doubleValue: 60)]
         
-        let workout = HKWorkout(activityType: self.selectedType, start: start!, end: end!, duration: 0, totalEnergyBurned: energyBurned, totalDistance: distance, metadata: nil)
+        let workout = HKWorkout(activityType: selectedType, start: start!, end: end!, duration: 0, totalEnergyBurned: energyBurned, totalDistance: distance, metadata: metadata)
         
         // Save the workout before adding detailed samples.
         healthStore.save(workout) { (success, error) -> Void in
             if !success {
                 self.showErrorDialog("*** An error occurred while saving the " + "workout: \(error?.localizedDescription)")
-                //abort()
             }
 
             // Add optional, detailed information for each time interval
