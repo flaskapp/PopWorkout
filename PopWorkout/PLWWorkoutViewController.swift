@@ -28,19 +28,28 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    override func loadView() {
+        super.loadView()
+        if let metadatas = workout.metadata {
+            for obj in metadatas {
+                print(obj.key, obj.value, NSStringFromClass(obj.value.dynamicType))
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.reloadDatas()
     }
     
-    @IBAction func reloadDatas() {
+    func reloadDatas() {
         let predicate = HKQuery.predicateForObjects(from: workout)
         let startDateSort = SortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         let healthStore:HKHealthStore = HKHealthStore()
         
         //Active Calories
-        let calType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
-        let calquery = HKSampleQuery(sampleType: calType, predicate: predicate,limit: 0, sortDescriptors: [startDateSort]) {
+        let calType = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
+        let calquery = HKSampleQuery(sampleType: calType, predicate: predicate, limit: 0, sortDescriptors: [startDateSort]) {
                 (sampleQuery, results, error) -> Void in
                 if let e = error {
                     print("*** An error occurred while adding a sample to " + "the workout: \(e.localizedDescription)")
@@ -69,14 +78,9 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
                 })
         }
         healthStore.execute(query)
-        
-        
-        if let metadatas = workout.metadata {
-            for obj in metadatas {
-                print(obj.key, obj.value, NSStringFromClass(obj.value.dynamicType))
-            }
-        }
+
     }
+
     
     //MARK: UITableViewDataSource implements
     

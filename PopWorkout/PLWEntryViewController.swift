@@ -18,8 +18,8 @@ class PLWEntryViewController: UITableViewController {
 
     let healthStore:HKHealthStore = HKHealthStore()
     var selectedType:HKWorkoutActivityType = .walking
-    var start:Date?
-    var end:Date?
+    var start:Date!
+    var end:Date!
     var distance:Double = 0
     var burnedCalories:Double = 0
     
@@ -55,18 +55,8 @@ class PLWEntryViewController: UITableViewController {
         let formatter = DateFormatter()
         formatter.dateStyle = DateFormatter.Style.mediumStyle
         formatter.timeStyle = DateFormatter.Style.mediumStyle
-        
-        if start != nil {
-            startLabel.text = formatter.string(from: start!)
-        } else {
-            startLabel.text = ""
-        }
-        
-        if end != nil {
-            endLabel.text = formatter.string(from: end!)
-        } else {
-            endLabel.text = ""
-        }
+        startLabel.text = formatter.string(from: start)
+        endLabel.text = formatter.string(from: end)
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -131,7 +121,7 @@ class PLWEntryViewController: UITableViewController {
 //        let metadata = ["HKWeatherHumidity":HKQuantity(unit: HKUnit.percent(), doubleValue: 90),
 //                        "HKWeatherTemperature":HKQuantity(unit: HKUnit.degreeCelsius(), doubleValue: 60)]
         
-        let workout = HKWorkout(activityType: selectedType, start: start!, end: end!, duration: 0, totalEnergyBurned: energyBurned, totalDistance: distance, metadata: metadata)
+        let workout = HKWorkout(activityType: selectedType, start: start, end: end, duration: 0, totalEnergyBurned: energyBurned, totalDistance: distance, metadata: metadata)
         
         // Save the workout before adding detailed samples.
         healthStore.save(workout) { (success, error) -> Void in
@@ -145,15 +135,14 @@ class PLWEntryViewController: UITableViewController {
             if dis > 0 {
                 let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
                 let distancePerInterval = HKQuantity(unit: HKUnit.meterUnit(with: HKMetricPrefix.kilo), doubleValue: dis)
-                let distancePerIntervalSample = HKQuantitySample(type: distanceType, quantity: distancePerInterval, start: self.start!, end: self.end!)
+                let distancePerIntervalSample = HKQuantitySample(type: distanceType, quantity: distancePerInterval, start: self.start, end: self.end)
                 samples.append(distancePerIntervalSample)
             }
 
             if burned > 0 {
                 let energyBurnedType = HKObjectType.quantityType( forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
                 let energyBurnedPerInterval = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: burned)
-                
-                let energyBurnedPerIntervalSample = HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval, start: self.start!, end: self.end!)
+                let energyBurnedPerIntervalSample = HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval, start: self.start, end: self.end)
                 samples.append(energyBurnedPerIntervalSample)
             }
 
