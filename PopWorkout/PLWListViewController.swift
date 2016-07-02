@@ -83,7 +83,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.endLabel.text = dateFormatter.string(from: workout.endDate)
         
         cell.typeLabel.text = stringOfWorkoutType(workout.workoutActivityType)
-        cell.sourceLabel.text = workout.source.name
+        cell.sourceLabel.text = workout.sourceRevision.source.name
         return cell
     }
     

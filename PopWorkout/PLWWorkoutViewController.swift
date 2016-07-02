@@ -137,6 +137,14 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
                 cell.eventNameLabel.text = "Pause"
             } else if event.type == .resume {
                 cell.eventNameLabel.text = "Resume"
+            } else if event.type == .lap {
+                cell.eventNameLabel.text = "Lap"
+            } else if event.type == .marker {
+                cell.eventNameLabel.text = "Marker"
+            } else if event.type == .motionPaused {
+                cell.eventNameLabel.text = "MotionPaused"
+            } else if event.type == .motionResumed {
+                cell.eventNameLabel.text = "MotionResumed"
             } else {
                 cell.eventNameLabel.text = ""
             }
@@ -162,7 +170,7 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
         }
         
         if quantity != nil {
-            cell.sourceLabel.text = quantity.source.name
+            cell.sourceLabel.text = quantity.sourceRevision.source.name
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .mediumStyle
