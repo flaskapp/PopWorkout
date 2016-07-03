@@ -13,7 +13,6 @@ class FLWWorkoutTableCellView: UITableViewCell {
     @IBOutlet var burnedLabel:UILabel!
     @IBOutlet var distanceLabel:UILabel!
     @IBOutlet var durationLabel:UILabel!
-    @IBOutlet var startLabel:UILabel!
-    @IBOutlet var endLabel:UILabel!
+    @IBOutlet var intervalLabel:UILabel!
     @IBOutlet var sourceLabel:UILabel!
 }

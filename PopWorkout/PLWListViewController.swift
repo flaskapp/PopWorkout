@@ -57,15 +57,13 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         numberFormatter.maximumFractionDigits = 5
 
         if let burned = workout.totalEnergyBurned {
-            let totalEnergyBurned = burned.doubleValue(for: HKUnit.kilocalorie())
-            cell.burnedLabel.text = numberFormatter.string(from: NSNumber(value: totalEnergyBurned))! + "kcal"
+            cell.burnedLabel.text = PLWHealthManager.sharedInstance.energyBurnedItem.string(quantity: burned)
         } else {
             cell.burnedLabel.text = ""
         }
 
         if let distance = workout.totalDistance {
-            let totalDistance = distance.doubleValue(for: HKUnit.meterUnit(with: HKMetricPrefix.kilo))
-            cell.distanceLabel.text = numberFormatter.string(from: NSNumber(value: totalDistance))! + "km"
+            cell.distanceLabel.text = PLWHealthManager.sharedInstance.distanceItem.string(quantity: distance)
         } else {
             cell.distanceLabel.text = ""
         }
@@ -74,11 +72,8 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         durationFormatter.unitsStyle = .abbreviated
         cell.durationLabel.text = durationFormatter.string(from: workout.duration)
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .mediumStyle
-        dateFormatter.timeStyle = .mediumStyle
-        cell.startLabel.text = dateFormatter.string(from: workout.startDate)
-        cell.endLabel.text = dateFormatter.string(from: workout.endDate)
+        let intervalformatter = DateIntervalFormatter()
+        cell.intervalLabel.text = intervalformatter.string(from: workout.startDate, to: workout.endDate)
         cell.typeLabel.text = stringOfWorkoutType(workout.workoutActivityType)
         cell.sourceLabel.text = workout.sourceRevision.source.name
         return cell
