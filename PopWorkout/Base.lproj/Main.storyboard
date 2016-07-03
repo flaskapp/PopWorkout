@@ -25,16 +25,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ufX-Qx-azM">
-                                                    <frame key="frameInset" minX="15" minY="14" width="30" height="16"/>
+                                                    <frame key="frameInset" minX="15" minY="15" width="30" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="MixedMetabolicCardioTraining" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sLi-b8-cug">
-                                                    <frame key="frameInset" minX="177" minY="14" width="183" height="16"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="MixedMetabolicCardioTraining" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="sLi-b8-cug">
+                                                    <frame key="frameInset" minX="141" minY="12" width="219" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.23529411759999999" green="0.62745098040000002" blue="0.82352941180000006" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -308,7 +308,7 @@
                                         <frame key="frameInset" minY="86" width="375" height="95"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="e8C-K2-v2X" id="cNS-cw-kiM">
-                                            <frame key="frameInset" width="342" height="94.5"/>
+                                            <frame key="frameInset" width="342" height="95"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WorkoutActivityType" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y3p-ZV-dVv">
@@ -515,7 +515,7 @@
                         <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MetaCell" textLabel="KED-4y-lhe" detailTextLabel="cip-IA-IpX" style="IBUITableViewCellStyleValue1" id="bhs-cG-RQm" customClass="FLWQuantityTableCellView" customModule="PopWorkout" customModuleProvider="target">
-                                <frame key="frameInset" minY="120" width="375" height="44"/>
+                                <frame key="frameInset" minY="119.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bhs-cG-RQm" id="3GZ-AM-sZS">
                                     <frame key="frameInset" width="375" height="43.5"/>
@@ -539,7 +539,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DataCell" textLabel="xkX-M1-I8l" detailTextLabel="CxZ-gL-3FT" style="IBUITableViewCellStyleValue1" id="bZG-jv-AsW" customClass="FLWQuantityTableCellView" customModule="PopWorkout" customModuleProvider="target">
-                                <frame key="frameInset" minY="164" width="375" height="44"/>
+                                <frame key="frameInset" minY="163.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bZG-jv-AsW" id="AMx-rm-ss6">
                                     <frame key="frameInset" width="342" height="43.5"/>
@@ -563,10 +563,10 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EventCell" id="Nrz-Hl-YPP" customClass="FLWWorkoutEventTableCellView" customModule="PopWorkout" customModuleProvider="target">
-                                <frame key="frameInset" minY="208" width="375" height="44"/>
+                                <frame key="frameInset" minY="207.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nrz-Hl-YPP" id="EUS-q5-zoF">
-                                    <frame key="frameInset" width="375" height="44"/>
+                                    <frame key="frameInset" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pause" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bnN-nc-E1Y">
