@@ -25,9 +25,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
                 (sampleQuery, results, error) -> Void in
                 
                 if let e = error {
-                    print("*** An error occurred while adding a sample to " +
-                        "the workout: \(e.localizedDescription)")
-                    abort()
+                    print("*** An error occurred while adding a sample to " + "the workout: \(e.localizedDescription)")
                 }
                 
                 if results != nil {
@@ -56,7 +54,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 0
-        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.maximumFractionDigits = 5
 
         if let burned = workout.totalEnergyBurned {
             let totalEnergyBurned = burned.doubleValue(for: HKUnit.kilocalorie())
@@ -81,7 +79,6 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
         dateFormatter.timeStyle = .mediumStyle
         cell.startLabel.text = dateFormatter.string(from: workout.startDate)
         cell.endLabel.text = dateFormatter.string(from: workout.endDate)
-        
         cell.typeLabel.text = stringOfWorkoutType(workout.workoutActivityType)
         cell.sourceLabel.text = workout.sourceRevision.source.name
         return cell
@@ -99,7 +96,7 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        let workout:HKWorkout = datas[(indexPath as NSIndexPath).row]
+        let workout:HKWorkout = datas[indexPath.row]
         let healthStore:HKHealthStore = HKHealthStore()
         healthStore.delete(workout, withCompletion: { (success, error) -> Void in
             if success {
@@ -109,9 +106,9 @@ class PLWListViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             } else {
                 let alertController = UIAlertController(
-                    title: "削除エラー",
-                    message: "削除失敗しました", preferredStyle: .alert)
-                let otherAction = UIAlertAction(title: "閉じる", style: .default) {action in }
+                    title: "Error",
+                    message: error?.localizedDescription, preferredStyle: .alert)
+                let otherAction = UIAlertAction(title: "Close", style: .default) {action in }
                 alertController.addAction(otherAction)
                 DispatchQueue.main.async {
                     self.present(alertController, animated: true, completion: nil)

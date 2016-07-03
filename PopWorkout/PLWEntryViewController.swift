@@ -9,7 +9,7 @@
 import UIKit
 import HealthKit
 
-class PLWEntryViewController: UITableViewController {
+class PLWEntryViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var typeLabel:UILabel!
     @IBOutlet weak var startLabel:UILabel!
     @IBOutlet weak var endLabel:UILabel!
@@ -20,8 +20,22 @@ class PLWEntryViewController: UITableViewController {
     var selectedType:HKWorkoutActivityType = .walking
     var start:Date!
     var end:Date!
-    var distance:Double = 0
-    var burnedCalories:Double = 0
+    var distanceValue:Double {
+        guard let text = distanceText.text else { return 0 }
+        if let value = Double(text) {
+            return value
+        } else {
+            return 0
+        }
+    }
+    var energyBurnedValue:Double {
+        guard let text = burnedText.text else { return 0 }
+        if let value = Double(text) {
+            return value
+        } else {
+            return 0
+        }
+    }
     
     override func loadView() {
         super.loadView()
@@ -32,22 +46,12 @@ class PLWEntryViewController: UITableViewController {
             comps.hour = hour - 1
         }
         start = cal.date(from: comps)
-        self.updateUI()
-        self.requestPrivacy()
     }
     
-    private func requestPrivacy() {
-        let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
-        let energyBurnedType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
-        let workoutType = HKWorkoutType.workoutType()
-        let types:Set<HKSampleType> = Set(arrayLiteral: distanceType, energyBurnedType, workoutType)
-        healthStore.requestAuthorization(toShare: types, read: types) { (success, error) -> Void in
-            if success {
-                print("success")
-            } else {
-                print(error)
-            }
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.updateUI()
+        PLWHealthManager.sharedInstance.requestPrivacy()
     }
     
     private func updateUI() {
@@ -57,14 +61,6 @@ class PLWEntryViewController: UITableViewController {
         formatter.timeStyle = DateFormatter.Style.mediumStyle
         startLabel.text = formatter.string(from: start)
         endLabel.text = formatter.string(from: end)
-        
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.minimumFractionDigits = 0
-        numberFormatter.maximumFractionDigits = 2
-        distanceText.text = numberFormatter.string(from: NSNumber(value: distance))
-        burnedText.text = numberFormatter.string(from: NSNumber(value: burnedCalories))
-        
        self.resignTexts()
     }
     
@@ -95,7 +91,6 @@ class PLWEntryViewController: UITableViewController {
     
     func chooseStart() {
         self.resignTexts()
-        //self.performSegue(withIdentifier: "ChooseDateTime", sender: nil)
         PLWDatePickerViewController.show(self, date: start) { (selectedDate) -> () in
             self.start = selectedDate
             self.updateUI()
@@ -110,55 +105,48 @@ class PLWEntryViewController: UITableViewController {
         }
     }
     
+    
     private func save() {
         self.resignTexts()
-        let formatter = NumberFormatter()
-        let burned = formatter.number(from: burnedText.text!)!.doubleValue
-        let energyBurned = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: burned)
-        let dis = formatter.number(from: distanceText.text!)!.doubleValue
-        let distance = HKQuantity(unit: HKUnit.mile(), doubleValue: dis)
+        let burned = energyBurnedValue
+        let energyBurned = HKQuantity(unit: PLWHealthManager.sharedInstance.energyBurnedItem.unit, doubleValue: burned)
+        let dis = distanceValue
+        let distance = HKQuantity(unit: PLWHealthManager.sharedInstance.distanceItem.unit, doubleValue: dis)
         let metadata:[String: AnyObject] = Dictionary()
-//        let metadata = ["HKWeatherHumidity":HKQuantity(unit: HKUnit.percent(), doubleValue: 90),
-//                        "HKWeatherTemperature":HKQuantity(unit: HKUnit.degreeCelsius(), doubleValue: 60)]
-        
+
         let workout = HKWorkout(activityType: selectedType, start: start, end: end, duration: 0, totalEnergyBurned: energyBurned, totalDistance: distance, metadata: metadata)
         
-        // Save the workout before adding detailed samples.
         healthStore.save(workout) { (success, error) -> Void in
             if !success {
                 self.showErrorDialog("*** An error occurred while saving the " + "workout: \(error?.localizedDescription)")
+                return
             }
 
-            // Add optional, detailed information for each time interval
             var samples: [HKQuantitySample] = []
-            
             if dis > 0 {
-                let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
-                let distancePerInterval = HKQuantity(unit: HKUnit.meterUnit(with: HKMetricPrefix.kilo), doubleValue: dis)
-                let distancePerIntervalSample = HKQuantitySample(type: distanceType, quantity: distancePerInterval, start: self.start, end: self.end)
+                let distance = PLWHealthManager.sharedInstance.distanceItem
+                let distancePerInterval = HKQuantity(unit: distance.unit, doubleValue: dis)
+                let distancePerIntervalSample = HKQuantitySample(type: distance.type, quantity: distancePerInterval, start: self.start, end: self.end)
                 samples.append(distancePerIntervalSample)
             }
 
             if burned > 0 {
-                let energyBurnedType = HKObjectType.quantityType( forIdentifier: HKQuantityTypeIdentifier.activeEnergyBurned)!
-                let energyBurnedPerInterval = HKQuantity(unit: HKUnit.kilocalorie(), doubleValue: burned)
-                let energyBurnedPerIntervalSample = HKQuantitySample(type: energyBurnedType, quantity: energyBurnedPerInterval, start: self.start, end: self.end)
+                let energyBurned = PLWHealthManager.sharedInstance.energyBurnedItem
+                let energyBurnedPerInterval = HKQuantity(unit: energyBurned.unit, doubleValue: burned)
+                let energyBurnedPerIntervalSample = HKQuantitySample(type: energyBurned.type, quantity: energyBurnedPerInterval, start: self.start, end: self.end)
                 samples.append(energyBurnedPerIntervalSample)
             }
 
-            // Add all the samples to the workout.
             if samples.count > 0 {
                 self.healthStore.add(samples, to: workout) { (success, error) -> Void in
                     if !success {
                         self.showErrorDialog("*** An error occurred while adding a " + "sample to the workout: \(error?.localizedDescription)")
-                        //abort()
                     } else {
                         self.showErrorDialog("Saved!")
                     }
                 }
             }
         }
-
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -198,5 +186,12 @@ class PLWEntryViewController: UITableViewController {
         DispatchQueue.main.async {
             self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    //MARK: UITextFieldDelegate implements
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        resignTexts()
+        return true
     }
 }

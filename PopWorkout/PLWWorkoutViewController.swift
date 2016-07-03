@@ -13,17 +13,17 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
 
     @IBOutlet var tableView:UITableView!
     var workout:HKWorkout!
+    var datas:[PLWSampleDatas] = []
     var caloriesDatas:[HKQuantitySample] = []
     var distanceDatas:[HKQuantitySample] = []
     
     enum WorkoutInfo:Int {
-        case metaData, events, activeCalories, distance
+        case metaData, events, datas
         func toString() -> String {
             switch (self) {
             case .metaData: return "Meta Data"
             case .events: return "Events"
-            case .activeCalories: return "Active Calories"
-            case .distance: return "Distance"
+            case .datas: return "Datas"
             }
         }
     }
@@ -46,39 +46,24 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
         let predicate = HKQuery.predicateForObjects(from: workout)
         let startDateSort = SortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
         let healthStore:HKHealthStore = HKHealthStore()
-        
-        //Active Calories
-        let calType = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
-        let calquery = HKSampleQuery(sampleType: calType, predicate: predicate, limit: 0, sortDescriptors: [startDateSort]) {
-                (sampleQuery, results, error) -> Void in
-                if let e = error {
-                    print("*** An error occurred while adding a sample to " + "the workout: \(e.localizedDescription)")
-                    abort()
-                }
-                self.caloriesDatas = results as! [HKQuantitySample]
-                DispatchQueue.main.async(execute: {
-                    self.tableView.reloadData()
-                    //self.tableView.reloadSections(NSIndexSet(index: WorkoutInfo.activeCalories.rawValue) as IndexSet, with: .automatic)
-                })
-        }
-        healthStore.execute(calquery)
-        
-        //Distance
-        let distanceType = HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.distanceWalkingRunning)!
-        let query = HKSampleQuery(sampleType: distanceType, predicate: predicate, limit: 0, sortDescriptors: [startDateSort]) {
-                (sampleQuery, results, error) -> Void in
-                if let e = error {
-                    print("*** An error occurred while adding a sample to " + "the workout: \(e.localizedDescription)")
-                    abort()
-                }
-                self.distanceDatas = results as! [HKQuantitySample]
-                DispatchQueue.main.async(execute: {
-                    self.tableView.reloadData()
-                    //self.tableView.reloadSections(NSIndexSet(index: WorkoutInfo.distance.rawValue) as IndexSet, with: .automatic)
-                })
-        }
-        healthStore.execute(query)
+        self.datas.removeAll()
 
+        let queue = OperationQueue()
+        for item in PLWHealthManager.sharedInstance.healthItems {
+            queue.addOperation({
+                let query = HKSampleQuery(sampleType: item.type, predicate: predicate, limit: 0, sortDescriptors: [startDateSort]) {
+                    (sampleQuery, results, error) -> Void in
+                    guard let samples = results as? [HKQuantitySample] else { return }
+                    if samples.isEmpty { return }
+                    let data = PLWSampleDatas(samples: samples, healthItem: item)
+                    self.datas.append(data)
+                    DispatchQueue.main.async(execute: {
+                        self.tableView.reloadData()
+                    })
+                }
+                healthStore.execute(query)
+            })
+        }
     }
 
     
@@ -105,10 +90,8 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             } else {
                 return 0
             }
-        } else if section == WorkoutInfo.activeCalories.rawValue {
-            return caloriesDatas.count
-        } else if section == WorkoutInfo.distance.rawValue {
-            return distanceDatas.count
+        } else if section == WorkoutInfo.datas.rawValue {
+            return datas.count
         } else {
             return 0
         }
@@ -156,77 +139,23 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             return cell
         }
         
-        let cell:FLWQuantityTableCellView = tableView.dequeueReusableCell(withIdentifier: "QuantityCell", for: indexPath) as! FLWQuantityTableCellView
-        var quantity:HKQuantitySample!
-        var unit:HKUnit!
-        
-        if indexPath.section == WorkoutInfo.activeCalories.rawValue {
-            quantity = caloriesDatas[indexPath.row]
-            unit = HKUnit.kilocalorie()
-            
-        } else if indexPath.section == WorkoutInfo.distance.rawValue {
-            quantity = distanceDatas[indexPath.row]
-            unit = HKUnit.meterUnit(with: HKMetricPrefix.kilo)
+        if indexPath.section == WorkoutInfo.datas.rawValue {
+            let cell:UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "DataCell", for: indexPath)
+            let data = datas[indexPath.row]
+            cell.textLabel?.text = data.healthItem.displayName
+            cell.detailTextLabel?.text = data.detail
+            return cell
         }
-        
-        if quantity != nil {
-            cell.sourceLabel.text = quantity.sourceRevision.source.name
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .mediumStyle
-            dateFormatter.timeStyle = .mediumStyle
-            cell.dateLabel.text = dateFormatter.string(from: quantity.startDate)
-            
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            numberFormatter.minimumFractionDigits = 0
-            numberFormatter.maximumFractionDigits = 2
-            
-            let value = quantity.quantity.doubleValue(for: unit)
-            cell.valueLabel.text = numberFormatter.string(from: NSNumber(value: value))! + unit.unitString
-        }
-        return cell
+        return tableView.dequeueReusableCell(withIdentifier: "MetaCell", for: indexPath)
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        var quantity:HKQuantitySample!
-        if indexPath.section == WorkoutInfo.activeCalories.rawValue {
-            quantity = caloriesDatas[indexPath.row]
-        } else if indexPath.section == WorkoutInfo.distance.rawValue {
-            quantity = distanceDatas[indexPath.row]
-        } else {
-            return
-        }
-        
-        let healthStore:HKHealthStore = HKHealthStore()
-        healthStore.delete(quantity, withCompletion: { (success, error) -> Void in
-            if success {
-                if indexPath.section == WorkoutInfo.activeCalories.rawValue {
-                    self.caloriesDatas.remove(at: indexPath.row)
-                } else if indexPath.section == WorkoutInfo.distance.rawValue {
-                    self.distanceDatas.remove(at: indexPath.row)
-                }
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            } else {
-                let alertController = UIAlertController(
-                    title: "削除エラー",
-                    message: "削除失敗しました", preferredStyle: .alert)
-                let otherAction = UIAlertAction(title: "閉じる", style: .default) {action in }
-                alertController.addAction(otherAction)
-                DispatchQueue.main.async {
-                    self.present(alertController, animated: true, completion: nil)
-                }
-            }
-        })
-    }
-    
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        if indexPath.section == WorkoutInfo.activeCalories.rawValue || indexPath.section == WorkoutInfo.distance.rawValue {
-            return .delete
-        } else {
-            return .none
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == WorkoutInfo.datas.rawValue {
+            let data = datas[indexPath.row]
+            let controller = storyboard?.instantiateViewController(withIdentifier: "WorkoutDatas") as! PLWWorkoutDatasViewController
+            controller.data = data
+            self.navigationController?.pushViewController(controller, animated: true)
         }
     }
 }

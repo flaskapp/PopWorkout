@@ -19,9 +19,12 @@
 		C50AD49819E3DFC500BA87BE /* FLWWorkoutTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */; };
 		C50AD49A19E40A2A00BA87BE /* PLWDatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */; };
 		C560067C19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C560067B19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift */; };
-		C5825FC519E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */; };
+		C5825FC519E4454D00EDCFDF /* PLWWorkoutDatasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC419E4454D00EDCFDF /* PLWWorkoutDatasViewController.swift */; };
 		C5825FC719E4479100EDCFDF /* PLWWorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */; };
 		C5825FC919E4662500EDCFDF /* FLWQuantityTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */; };
+		C5FD51191D29045B002262E2 /* PLWSampleDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD51181D29045B002262E2 /* PLWSampleDatas.swift */; };
+		C5FD511E1D290483002262E2 /* PLWHealthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD511D1D290483002262E2 /* PLWHealthData.swift */; };
+		C5FD51201D29055C002262E2 /* PLWHealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FD511F1D29055C002262E2 /* PLWHealthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,9 +55,12 @@
 		C50AD49719E3DFC500BA87BE /* FLWWorkoutTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWWorkoutTableCellView.swift; sourceTree = "<group>"; };
 		C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWDatePickerViewController.swift; sourceTree = "<group>"; };
 		C560067B19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWWorkoutEventTableCellView.swift; sourceTree = "<group>"; };
-		C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutEventsViewController.swift; sourceTree = "<group>"; };
+		C5825FC419E4454D00EDCFDF /* PLWWorkoutDatasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutDatasViewController.swift; sourceTree = "<group>"; };
 		C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWWorkoutViewController.swift; sourceTree = "<group>"; };
 		C5825FC819E4662500EDCFDF /* FLWQuantityTableCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLWQuantityTableCellView.swift; sourceTree = "<group>"; };
+		C5FD51181D29045B002262E2 /* PLWSampleDatas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWSampleDatas.swift; sourceTree = "<group>"; };
+		C5FD511D1D290483002262E2 /* PLWHealthData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWHealthData.swift; sourceTree = "<group>"; };
+		C5FD511F1D29055C002262E2 /* PLWHealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PLWHealthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,11 +105,12 @@
 			isa = PBXGroup;
 			children = (
 				C50AD48F19E3CE5900BA87BE /* PopWorkout.entitlements */,
+				C5FD51171D290445002262E2 /* Models */,
 				C50AD49619E3DFAC00BA87BE /* Views */,
 				C50AD49219E3DD3C00BA87BE /* PLWEntryViewController.swift */,
 				C50AD49419E3DE1600BA87BE /* PLWListViewController.swift */,
 				C5825FC619E4479100EDCFDF /* PLWWorkoutViewController.swift */,
-				C5825FC419E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift */,
+				C5825FC419E4454D00EDCFDF /* PLWWorkoutDatasViewController.swift */,
 				C50AD46D19E3C6C900BA87BE /* FirstViewController.swift */,
 				C50AD49919E40A2A00BA87BE /* PLWDatePickerViewController.swift */,
 				C50AD46B19E3C6C900BA87BE /* AppDelegate.swift */,
@@ -148,6 +155,16 @@
 				C560067B19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C5FD51171D290445002262E2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C5FD51181D29045B002262E2 /* PLWSampleDatas.swift */,
+				C5FD511D1D290483002262E2 /* PLWHealthData.swift */,
+				C5FD511F1D29055C002262E2 /* PLWHealthManager.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,13 +276,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				C50AD49A19E40A2A00BA87BE /* PLWDatePickerViewController.swift in Sources */,
+				C5FD51201D29055C002262E2 /* PLWHealthManager.swift in Sources */,
+				C5FD51191D29045B002262E2 /* PLWSampleDatas.swift in Sources */,
+				C5FD511E1D290483002262E2 /* PLWHealthData.swift in Sources */,
 				C5825FC919E4662500EDCFDF /* FLWQuantityTableCellView.swift in Sources */,
 				C50AD46C19E3C6C900BA87BE /* AppDelegate.swift in Sources */,
 				C50AD46E19E3C6C900BA87BE /* FirstViewController.swift in Sources */,
 				C560067C19E7A16C00B34FA0 /* FLWWorkoutEventTableCellView.swift in Sources */,
 				C50AD49819E3DFC500BA87BE /* FLWWorkoutTableCellView.swift in Sources */,
 				C50AD49319E3DD3C00BA87BE /* PLWEntryViewController.swift in Sources */,
-				C5825FC519E4454D00EDCFDF /* PLWWorkoutEventsViewController.swift in Sources */,
+				C5825FC519E4454D00EDCFDF /* PLWWorkoutDatasViewController.swift in Sources */,
 				C5825FC719E4479100EDCFDF /* PLWWorkoutViewController.swift in Sources */,
 				C50AD49519E3DE1600BA87BE /* PLWListViewController.swift in Sources */,
 			);
