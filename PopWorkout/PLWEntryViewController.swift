@@ -39,7 +39,7 @@ class PLWEntryViewController: UITableViewController, UITextFieldDelegate {
     
     override func loadView() {
         super.loadView()
-        let cal:Calendar = Calendar.current()
+        let cal:Calendar = Calendar.current
         var comps:DateComponents = cal.components([.year, .month, .day, .hour], from: Date())
         end = cal.date(from: comps)
         if let hour = comps.hour {
@@ -57,8 +57,8 @@ class PLWEntryViewController: UITableViewController, UITextFieldDelegate {
     private func updateUI() {
         typeLabel.text = stringOfWorkoutType(selectedType)
         let formatter = DateFormatter()
-        formatter.dateStyle = DateFormatter.Style.mediumStyle
-        formatter.timeStyle = DateFormatter.Style.mediumStyle
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
         startLabel.text = formatter.string(from: start)
         endLabel.text = formatter.string(from: end)
        self.resignTexts()

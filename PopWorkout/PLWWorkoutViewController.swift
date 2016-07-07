@@ -133,8 +133,8 @@ class PLWWorkoutViewController: UIViewController, UITableViewDataSource, UITable
             }
 
             let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .mediumStyle
-            dateFormatter.timeStyle = .mediumStyle
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .medium
             cell.startDateLabel.text = dateFormatter.string(from: event.date)
             return cell
         }

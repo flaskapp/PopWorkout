@@ -31,8 +31,8 @@ class PLWWorkoutDatasViewController: UIViewController, UITableViewDataSource, UI
         cell.sourceLabel.text = sample.sourceRevision.source.name
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .mediumStyle
-        dateFormatter.timeStyle = .mediumStyle
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .medium
         cell.dateLabel.text = dateFormatter.string(from: sample.startDate)
         cell.valueLabel.text = data.healthItem.string(quantity: sample.quantity)
         return cell
